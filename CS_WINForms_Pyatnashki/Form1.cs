@@ -35,18 +35,18 @@ namespace CS_WINForms_Pyatnashki
         {
             int i, j;
             Random Rand = new Random();
-            ABC:
-            for (i = 0; i < 16; i++)
+            while (!checkIsSolveble())
             {
-            XYZ: curPos[i] = 1 + Rand.Next() % 16;
-                for (j = 0; j < i; j++)
+                for (i = 0; i < 16; i++)
                 {
-                    if (curPos[i] == curPos[j] && i != j)
-                        goto XYZ;
+                XYZ: curPos[i] = 1 + Rand.Next() % 16;
+                    for (j = 0; j < i; j++)
+                    {
+                        if (curPos[i] == curPos[j] && i != j)
+                            goto XYZ;
+                    }
                 }
             }
-            if (!checkIsSolveble())
-                goto ABC;
             writeNumsOnButtons();
             setButtonsPositionsAndStyle();
         }
@@ -59,16 +59,12 @@ namespace CS_WINForms_Pyatnashki
                 makeButtonInvizible(buttonsMas[i], curPos[i]);
             }
         }
-
-        public void checkFinish()
+        public void makeButtonInvizible(Button tmp, int val)
         {
-            for (int i = 0; i < 16; i++)
-            {
-                if (curPos[i] != defPos[i])
-                    break;
-                else if (i == 15)
-                    MessageBox.Show("Вы выиграли!");
-            }
+            if (val == 16)
+                tmp.Visible = false;
+            else
+                tmp.Visible = true;
         }
 
         public bool checkIsSolveble()
@@ -119,14 +115,6 @@ namespace CS_WINForms_Pyatnashki
             }
         }
 
-        public void makeButtonInvizible(Button tmp, int val)
-        {
-            if (val == 16)
-                tmp.Visible = false;
-            else
-                tmp.Visible = true;
-        }
-
         public void swap(Button btCur, Button btEmpty, int a, int b)
         {
             int tmp = curPos[a];
@@ -171,6 +159,17 @@ namespace CS_WINForms_Pyatnashki
 
             writeNumsOnButtons();
             checkFinish();
+        }
+
+        public void checkFinish()
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                if (curPos[i] != defPos[i])
+                    break;
+                else if (i == 15)
+                    MessageBox.Show("Вы выиграли!");
+            }
         }
     }
 }
